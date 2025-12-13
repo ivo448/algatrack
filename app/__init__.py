@@ -11,10 +11,12 @@ def create_app(config_class=DevelopmentConfig):
     from app.db import database
     database.init_app(app)
 
-    from app.routes import auth, dashboard, operaciones
+    from app.routes import auth, dashboard, operaciones, calendario, lotes
     app.register_blueprint(auth.bp)
     app.register_blueprint(dashboard.bp)
     app.register_blueprint(operaciones.bp)
+    app.register_blueprint(calendario.bp)
+    app.register_blueprint(lotes.bp)
     @app.after_request
     def security_headers(response):
         response.headers['X-Content-Type-Options'] = 'nosniff'
