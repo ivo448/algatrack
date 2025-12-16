@@ -6,3 +6,5 @@ instance/
 env/
 .env/
 .env
+.vscode/
+.venv_backup/

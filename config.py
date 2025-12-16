@@ -4,7 +4,7 @@ from dotenv import load_dotenv
 load_dotenv()
 
 class Config:
-    SECRET_KEY = os.getenv('SECRET_KEY', 'dev-key-insegura')
+    SECRET_KEY = os.getenv('SECRET_KEY')
     POSTGRES_URI = os.getenv('POSTGRES_URI')
     MONGO_URI = os.getenv('MONGO_URI')
 

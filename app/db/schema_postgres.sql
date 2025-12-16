@@ -1,7 +1,7 @@
-DROP TABLE IF EXISTS pesajes;
 DROP TABLE IF EXISTS pedidos;
 DROP TABLE IF EXISTS lotes;
 DROP TABLE IF EXISTS usuarios;
+DROP TABLE IF EXISTS clientes;
 
 -- En Postgres usamos SERIAL en lugar de AUTOINCREMENT
 CREATE TABLE usuarios (
@@ -30,5 +30,16 @@ CREATE TABLE pedidos (
     cantidad_ton NUMERIC(10,2) NOT NULL,
     fecha_entrega DATE NOT NULL,
     estado VARCHAR(20) DEFAULT 'pendiente',
+    creado_en TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
+
+CREATE TABLE clientes (
+    id SERIAL PRIMARY KEY,
+    empresa VARCHAR(100) UNIQUE NOT NULL, -- Nombre de la Razón Social
+    contacto VARCHAR(100),                -- Persona de contacto (Ej: Juan Pérez)
+    email VARCHAR(100),
+    telefono VARCHAR(20),
+    direccion TEXT,
+    estado VARCHAR(20) DEFAULT 'activo',  -- activo / inactivo
     creado_en TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
