@@ -6,8 +6,7 @@ def create_app(config_class=DevelopmentConfig):
     app = Flask(__name__)
     app.config.from_object(config_class)
 
-    CORS(app, resources={r"/api/*": {"origins": "https://algatrack-frontend-gu22hyvl7-iavo.vercel.app"}}, supports_credentials=True)
-
+    CORS(app, resources={r"/api/*": {"origins": "https://algatrack-frontend-gu22hyvl7-iavo.vercel.app"}})
     from app.db import database
     database.init_app(app)
 
