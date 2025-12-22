@@ -1,16 +1,16 @@
 from flask import Flask
 from flask_cors import CORS
-from config import DevelopmentConfig
+from config import Config
 
-def create_app(config_class=DevelopmentConfig):
+def create_app(config_class=Config):
     app = Flask(__name__)
     app.config.from_object(config_class)
 
-    CORS(app, resources={r"/api/*": {"origins": "https://algatrack-frontend-gu22hyvl7-iavo.vercel.app"}})
+    CORS(app, supports_credentials=True, origins=["http://localhost:5173"])
     from app.db import database
     database.init_app(app)
 
-    from app.routes import auth, dashboard, operaciones, calendario, lotes, pedidos, clientes
+    from app.routes import auth, dashboard, operaciones, calendario, lotes, pedidos, clientes, configuracion
     
     app.register_blueprint(auth.bp)
     app.register_blueprint(dashboard.bp)
@@ -19,6 +19,7 @@ def create_app(config_class=DevelopmentConfig):
     app.register_blueprint(lotes.bp)
     app.register_blueprint(pedidos.bp)
     app.register_blueprint(clientes.bp)
+    app.register_blueprint(configuracion.bp)
 
     @app.after_request
     def security_headers(response):
