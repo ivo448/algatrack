@@ -1,12 +1,14 @@
 from flask import Flask
 from flask_cors import CORS
 from config import Config
+import os
 
 def create_app(config_class=Config):
+    frontend_url = os.environ.get('FRONTEND_URL')
     app = Flask(__name__)
     app.config.from_object(config_class)
 
-    CORS(app, supports_credentials=True, origins=["http://localhost:5173"])
+    CORS(app, resources={r"/api/*": {"origins": frontend_url}})
     from app.db import database
     database.init_app(app)
 
