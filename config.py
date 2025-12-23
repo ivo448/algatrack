@@ -2,37 +2,37 @@ import os
 from datetime import timedelta
 from dotenv import load_dotenv
 
+# Cargar variables del archivo .env (solo funciona en local)
 load_dotenv()
 
 class Config:
-    # 1. Configuración General
-    SECRET_KEY = os.getenv('SECRET_KEY', 'clave_segura_por_defecto')
-    SQLALCHEMY_TRACK_MODIFICATIONS = False
+    # 1. SEGURIDAD BASE
+    SECRET_KEY = os.getenv('SECRET_KEY', 'clave_dev_insegura')
     
-    # 2. Configuración de Base de Datos
-    uri = os.getenv('POSTGRES_URI') 
+    # 2. BASE DE DATOS (Soporte para Supabase y Render)
+    # Obtenemos la URL cruda
+    uri = os.getenv('POSTGRES_URI')
     
-    # Corrección para Supabase
+    # CORRECCIÓN AUTOMÁTICA PARA SUPABASE (postgres:// -> postgresql://)
     if uri and uri.startswith("postgres://"):
         uri = uri.replace("postgres://", "postgresql://", 1)
     
-    # Asignamos a la variable estándar de Flask-SQLAlchemy
+    # Asignamos a las dos variables que tu sistema usa
     SQLALCHEMY_DATABASE_URI = uri
+    POSTGRES_URI = uri  # Para que no fallen tus scripts seed.py o database.py
     
-    # --- AGREGA ESTA LÍNEA ---
-    # Guardamos también el nombre antiguo para que database.py y seed.py no fallen
-    POSTGRES_URI = uri 
-    # -------------------------
-
+    SQLALCHEMY_TRACK_MODIFICATIONS = False
     MONGO_URI = os.getenv('MONGO_URI')
 
-    # 3. Configuración de Cookies
+    # 3. CONFIGURACIÓN DE COOKIES (POR DEFECTO: PRODUCCIÓN)
+    # Asumimos el escenario más estricto (Nube)
     SESSION_COOKIE_SAMESITE = 'None'
     SESSION_COOKIE_SECURE = True
     PERMANENT_SESSION_LIFETIME = timedelta(days=1)
 
-# Ajuste para Desarrollo Local
-if os.getenv('ENV') != 'production':
+# 4. EXCEPCIÓN: DESARROLLO LOCAL
+# Si la variable ENV dice 'development', relajamos la seguridad
+if os.getenv('ENV') == 'development':
     Config.SESSION_COOKIE_SAMESITE = 'Lax'
-    Config.SESSION_COOKIE_SECURE = False
+    Config.SESSION_COOKIE_SECURE = False # Importante: False porque localhost no usa https
     Config.DEBUG = True

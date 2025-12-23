@@ -4,13 +4,16 @@ from config import Config
 import os
 
 def create_app(config_class=Config):
-    frontend_url = os.environ.get('FRONTEND_URL')
     app = Flask(__name__)
     app.config.from_object(config_class)
-    print("CORS allowed for frontend URL:", frontend_url)
+    
+    # Obtener URL permitida (Localhost en dev, Vercel en prod)
+    frontend_url = os.environ.get('FRONTEND_URL')
+    
+    # Configuración CORS estricta pero dinámica
     CORS(app, 
          resources={r"/api/*": {"origins": [frontend_url]}},
-         supports_credentials=True)
+         supports_credentials=True) # OBLIGATORIO para cookies
     from app.db import database
     database.init_app(app)
 
