@@ -8,7 +8,9 @@ def create_app(config_class=Config):
     app = Flask(__name__)
     app.config.from_object(config_class)
 
-    CORS(app, resources={r"/api/*": {"origins": frontend_url}})
+    CORS(app, 
+         resources={r"/api/*": {"origins": [frontend_url]}},
+         supports_credentials=True)
     from app.db import database
     database.init_app(app)
 
