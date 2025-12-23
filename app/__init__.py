@@ -7,7 +7,7 @@ def create_app(config_class=Config):
     frontend_url = os.environ.get('FRONTEND_URL')
     app = Flask(__name__)
     app.config.from_object(config_class)
-
+    print("CORS allowed for frontend URL:", frontend_url)
     CORS(app, 
          resources={r"/api/*": {"origins": [frontend_url]}},
          supports_credentials=True)
