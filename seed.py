@@ -43,7 +43,6 @@ def seed_data():
                 INSERT INTO lotes (tipo_alga, superficie, fecha_inicio, fecha_cosecha_estimada, estado) 
                 VALUES 
                 ('Gracilaria', 5.0, '2024-11-15', '2025-01-10', 'cosechado'),
-                ('Pelillo', 3.0, '2024-12-01', '2025-02-15', 'cosechado'),
                 ('Gracilaria', 8.0, '2025-01-15', '2025-03-05', 'cosechado')
             """)
 
