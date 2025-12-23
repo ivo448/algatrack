@@ -1,5 +1,6 @@
 import os
 from dotenv import load_dotenv
+from datetime import timedelta
 
 load_dotenv()
 
@@ -12,6 +13,10 @@ if ENV == 'production':
         POSTGRES_URI = os.getenv('POSTGRES_URI')
         MONGO_URI = os.getenv('MONGO_URI')
         FRONT_END_URL = os.getenv('FRONTEND_URL')
+        SQLALCHEMY_TRACK_MODIFICATIONS = False
+        SESSION_COOKIE_SAMESITE = 'None'
+        SESSION_COOKIE_SECURE = True
+        PERMANENT_SESSION_LIFETIME = timedelta(days=1)
 elif ENV == 'development':
     class Config:
         DEBUG = True
